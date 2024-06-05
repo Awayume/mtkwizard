@@ -1,0 +1,13 @@
+plugins {
+    id 'groovy-gradle-plugin'
+}
+
+repositories {
+    gradlePluginPortal()
+}
+
+dependencies {
+    implementation 'com.github.johnrengelman:shadow:8.1.1'
+    implementation 'net.ltgt.gradle:gradle-errorprone-plugin:4.0.0'
+    implementation 'org.checkerframework:checkerframework-gradle-plugin:0.6.40'
+}

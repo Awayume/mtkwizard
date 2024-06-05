@@ -1,0 +1,29 @@
+name: Test
+
+on:
+  push:
+    paths-ignore:
+      - '.git**'
+      - '*.md'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper/dists
+          key: ${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Run test
+        run: |
+          ./gradlew test
+

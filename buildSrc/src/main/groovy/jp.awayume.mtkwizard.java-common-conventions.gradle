@@ -1,0 +1,90 @@
+import java.time.format.DateTimeFormatter
+import java.time.ZonedDateTime
+import java.time.ZoneOffset
+
+import java.util.regex.Pattern;
+
+
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+    id 'net.ltgt.errorprone'
+    id 'org.checkerframework'
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+
+    // Checker Framework
+    compileOnly 'org.checkerframework:checker-qual:3.42.0'
+    testCompileOnly 'org.checkerframework:checker-qual:3.42.0'
+    checkerFramework 'org.checkerframework:checker:3.42.0'
+
+    // Error Prone
+    compileOnly 'com.google.errorprone:error_prone_annotations:2.10.0'
+    errorprone 'com.google.errorprone:error_prone_core:2.10.0'
+}
+
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+
+compileJava {
+    options.compilerArgs << '-Xlint:all,-processing'
+}
+
+
+checkerFramework {
+    checkers = [
+        'org.checkerframework.checker.nullness.NullnessChecker',
+    ]
+}
+
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+
+def _ = { ->  // define _ to avoid compile error
+    def describe = 'git describe --always --dirty --broken'.execute().text.trim()
+    def tagPattern = Pattern.compile('^v\\d+\\.\\d+\\.\\d+(-(alpha|beta|rc)(\\.\\d+)?)?')
+    def tagMatcher = tagPattern.matcher(describe)
+
+    if (tagMatcher.find()) {
+        if (describe.matches(tagPattern)) {
+            project.metaClass.buildType = 'release'
+            project.version = describe.substring(1)
+        } else {
+            project.metaClass.buildType = 'debug'
+            project.version = describe.substring(1) + '-SNAPSHOT'
+        }
+    } else {
+        project.metaClass.buildType = 'debug'
+        project.version = describe + '-SNAPSHOT'
+    }
+    project.metaClass.revision = 'git rev-parse HEAD'.execute().text.trim()
+}()
+
+
+jar {
+    manifest {
+        attributes 'Author': 'Awayume <dev@awayume.jp>'
+        attributes 'Build-Type': project.buildType
+        attributes 'Created-At': ZonedDateTime.now(ZoneOffset.UTC)
+        attributes 'Description': 'A tool to flash MediaTek devices.'
+        attributes 'Version': project.version
+        attributes 'Revision': project.revision
+    }
+    entryCompression = ZipEntryCompression.STORED
+}

@@ -1,0 +1,11 @@
+plugins {
+    id 'jp.awayume.mtkwizard.java-application-conventions'
+}
+
+dependencies {
+    implementation project(':mtk')
+}
+
+application {
+    mainClass = 'jp.awayume.mtkwizard.gui.Main'
+}
