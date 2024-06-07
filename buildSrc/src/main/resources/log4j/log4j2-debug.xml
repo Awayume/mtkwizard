@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="loglayout">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %p %l - %m%n</Property>
+    </Properties>
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="${loglayout}"/>
+        </Console>
+        <RollingFile name="rolling" fileName="log/mtkwizard.log" filePattern="mtkwizard.log.-%d{yyyyMMdd}-%i.gz">
+            <PatternLayout pattern="${loglayout}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy interval="7" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy fileIndex="max" min="1" max="12"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="stdout"/>
+            <AppenderRef ref="rolling"/>
+        </Root>
+    </Loggers>
+</Configuration>
