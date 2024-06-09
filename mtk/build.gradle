@@ -3,4 +3,5 @@ plugins {
 }
 
 dependencies {
+    implementation 'com.fazecast:jSerialComm:2.11.0'
 }
