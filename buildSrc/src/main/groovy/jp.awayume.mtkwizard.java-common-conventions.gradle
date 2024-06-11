@@ -43,7 +43,7 @@ java {
 
 
 compileJava {
-    options.compilerArgs << '-Xlint:all,-static'
+    options.compilerArgs << '-Xlint:all,-processing,-static'
 }
 
 

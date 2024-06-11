@@ -9,6 +9,8 @@ import java.util.jar.Attributes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import picocli.CommandLine.IVersionProvider;
+
 
 public final class Manifest {
     public String buildType;
@@ -34,5 +36,16 @@ public final class Manifest {
         this.version = manifestAttributes.getValue("Version");
         this.revision = manifestAttributes.getValue("Revision");
         this.createdAt = ZonedDateTime.parse(manifestAttributes.getValue("Created-At"));
+    }
+
+    public static class VersionProvider implements IVersionProvider {
+        @Override
+        public String[] getVersion() throws Exception {
+            Manifest manifest = new Manifest();
+            return new String[] {
+                String.format("MTK Wizard version %s", manifest.version),
+                "Copyright (C) 2024 Awayume",
+            };
+        }
     }
 }
