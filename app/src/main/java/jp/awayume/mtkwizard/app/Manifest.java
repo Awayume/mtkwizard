@@ -13,29 +13,42 @@ import picocli.CommandLine.IVersionProvider;
 
 
 public final class Manifest {
-    public String buildType;
-    public String version;
-    public String revision;
-    public ZonedDateTime createdAt;
+    @SuppressWarnings("initialization")
+    public static String buildType;
+    @SuppressWarnings("initialization")
+    public static String version;
+    @SuppressWarnings("initialization")
+    public static String revision;
+    @SuppressWarnings("initialization")
+    public static ZonedDateTime createdAt;
+    private static boolean isLoaded = false;
     private static final Logger logger = LogManager.getLogger(Manifest.class);
 
+    @SuppressWarnings("StaticAssignmentInConstructor")
     public Manifest() {
-        java.util.jar.Manifest manifest;
-        try {
-            InputStream manifestStream = ClassLoader.getSystemResourceAsStream("META-INF/MANIFEST.MF");
-            if (manifestStream == null) {
-                throw new IOException("The JAR Manifest not found");
+        if (!this.isLoaded) {
+            this.logger.debug("Loading the jar manifest...");
+            java.util.jar.Manifest manifest;
+            try {
+                InputStream manifestStream = ClassLoader.getSystemResourceAsStream("META-INF/MANIFEST.MF");
+                if (manifestStream == null) {
+                    throw new IOException("The jar manifest not found");
+                }
+                manifest = new java.util.jar.Manifest(manifestStream);
+            } catch (IOException e) {
+                this.logger.fatal("An unexpected exception occured", e);
+                throw new RuntimeException("An unexpected exception occured", e);
             }
-            manifest = new java.util.jar.Manifest(manifestStream);
-        } catch (IOException e) {
-            this.logger.fatal("An Unexpected exception occured", e);
-            throw new RuntimeException("An Unexpected exception occured", e);
+            Attributes manifestAttributes = manifest.getMainAttributes();
+            this.buildType = manifestAttributes.getValue("Build-Type");
+            this.version = manifestAttributes.getValue("Version");
+            this.revision = manifestAttributes.getValue("Revision");
+            this.createdAt = ZonedDateTime.parse(manifestAttributes.getValue("Created-At"));
+            this.isLoaded = true;
+            this.logger.debug("Loaded");
+        } else {
+            this.logger.debug("The jar manifest has already loaded so using the cached values");
         }
-        Attributes manifestAttributes = manifest.getMainAttributes();
-        this.buildType = manifestAttributes.getValue("Build-Type");
-        this.version = manifestAttributes.getValue("Version");
-        this.revision = manifestAttributes.getValue("Revision");
-        this.createdAt = ZonedDateTime.parse(manifestAttributes.getValue("Created-At"));
     }
 
     public static class VersionProvider implements IVersionProvider {
