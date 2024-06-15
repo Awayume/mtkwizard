@@ -53,7 +53,7 @@ public class Main implements Runnable {
         );
 
         Main.logger.debug(String.format("The command line arguments is: %s", Arrays.toString(args)));
-        Main.logger.debug("Execute a command");
+        Main.logger.debug("Executing the command line");
         int exitCode = new CommandLine(new Main()).execute(args);
         Main.logger.debug(String.format("The exit code is: %d", exitCode));
         System.exit(exitCode);
@@ -65,8 +65,10 @@ public class Main implements Runnable {
     @Override
     public void run() {
         if (version) {
+            this.logger.debug("The option '--version' is detected; Executing the 'version' command");
             new CommandLine(this).execute(new String[] {"version"});
         } else {
+            this.logger.debug("No command is detected; Executing the 'help' command");
             this.commandSpec.commandLine().printVersionHelp(System.out);
         }
     }

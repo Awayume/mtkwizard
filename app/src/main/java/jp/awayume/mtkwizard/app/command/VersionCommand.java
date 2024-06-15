@@ -28,6 +28,7 @@ public class VersionCommand implements Runnable {
      */
     @Override
     public void run() {
+        this.logger.debug("Executing the 'version' command");
         Manifest manifest = new Manifest();
         DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
         String buildType;
@@ -56,5 +57,6 @@ public class VersionCommand implements Runnable {
                       + String.format("JVM:          %s\n", jvm)
                       + String.format("OS:           %s\n\n", os);
         System.out.println(info);
+        this.logger.debug("Execution of the 'version' command completed");
     }
 }
