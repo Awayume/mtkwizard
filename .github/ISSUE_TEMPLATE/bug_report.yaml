@@ -50,17 +50,8 @@ body:
 
   - type: textarea
     attributes:
-      label: System information
-      description: Write the operating system you are using, its version and architecture.
-    validations:
-      required: true
-
-  - type: dropdown
-    attributes:
       label: MTK Wizard version
-      description: Choose the version of MTK Wizard.
-      options:
-        - 0.1.0-alpha
+      description: Run `mtkwizard --version` and copy&paste the output.
     validations:
       required: true
 
