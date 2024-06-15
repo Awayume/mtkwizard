@@ -15,6 +15,12 @@ import org.apache.logging.log4j.Logger;
 import picocli.CommandLine.IVersionProvider;
 
 
+/**
+ * A class to parse the jar manifest.
+ *
+ * @author Awayume {@literal <dev@awayume.jp>}
+ * @since 0.1
+ */
 public final class Manifest {
     @SuppressWarnings("initialization")
     public static String buildType;
@@ -27,6 +33,11 @@ public final class Manifest {
     private static boolean isLoaded = false;
     private static final Logger logger = LogManager.getLogger(Manifest.class);
 
+    /**
+     * Loads the manifest and parses it.
+     *
+     * Once the manifest is loaded, its values are cached.
+     */
     @SuppressWarnings("StaticAssignmentInConstructor")
     public Manifest() {
         if (!this.isLoaded) {
@@ -54,7 +65,18 @@ public final class Manifest {
         }
     }
 
+    /**
+     * The version provider for Picocli.
+     *
+     * @author Awayume {@literal <dev@awayume.jp>}
+     * @since 0.1
+     */
     public static class VersionProvider implements IVersionProvider {
+        /**
+         * Parses the jar manifest and returns the formatted version string.
+         *
+         * @return The formatted version string
+         */
         @Override
         public String[] getVersion() throws Exception {
             Manifest manifest = new Manifest();

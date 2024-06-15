@@ -18,6 +18,12 @@ import picocli.CommandLine.Model.CommandSpec;
 import jp.awayume.mtkwizard.app.Manifest;
 
 
+/**
+ * The entry point of this software.
+ *
+ * @author Awayume {@literal <dev@awayume.jp>}
+ * @since 0.1
+ */
 @Command(
     name = "mtkwizard",
     versionProvider = Manifest.VersionProvider.class,
@@ -32,6 +38,11 @@ public class Main implements Runnable {
     @SuppressWarnings("initialization")
     private CommandSpec commandSpec;
 
+    /**
+     * The entry point of this software.
+     *
+     * @param args The command line arguments
+     */
     public static void main(String[] args) {
         Manifest manifest = new Manifest();
         Main.logger.debug(
@@ -45,6 +56,9 @@ public class Main implements Runnable {
         System.exit(exitCode);
     }
 
+    /**
+     * Executes a command.
+     */
     @Override
     public void run() {
         this.commandSpec.commandLine().printVersionHelp(System.out);
