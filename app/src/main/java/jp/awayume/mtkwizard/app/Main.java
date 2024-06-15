@@ -16,6 +16,7 @@ import picocli.CommandLine.Spec;
 import picocli.CommandLine.Model.CommandSpec;
 
 import jp.awayume.mtkwizard.app.Manifest;
+import jp.awayume.mtkwizard.app.command.VersionCommand;
 
 
 /**
@@ -27,16 +28,18 @@ import jp.awayume.mtkwizard.app.Manifest;
 @Command(
     name = "mtkwizard",
     versionProvider = Manifest.VersionProvider.class,
-    description = "A tool to flash MediaTek devices",
-    footer = "This software is an Open Source Software.\n"
+    description = "A tool to flash MediaTek devices.\n",
+    footer = "\nThis software is an Open Source Software.\n"
             + "Please report issues at https://github.com/Awayume/mtkwizard/issues",
-    mixinStandardHelpOptions = true
+    subcommands = VersionCommand.class
 )
 public class Main implements Runnable {
     private static final Logger logger = LogManager.getLogger(Main.class);
     @Spec
     @SuppressWarnings("initialization")
     private CommandSpec commandSpec;
+    @Option(names = {"-V", "--version"}, description = "Print version information and exit.")
+    private boolean version;
 
     /**
      * The entry point of this software.
@@ -61,6 +64,10 @@ public class Main implements Runnable {
      */
     @Override
     public void run() {
-        this.commandSpec.commandLine().printVersionHelp(System.out);
+        if (version) {
+            new CommandLine(this).execute(new String[] {"version"});
+        } else {
+            this.commandSpec.commandLine().printVersionHelp(System.out);
+        }
     }
 }
