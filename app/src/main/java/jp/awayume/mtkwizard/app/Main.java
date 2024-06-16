@@ -4,12 +4,14 @@
 package jp.awayume.mtkwizard.app;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.HelpCommand;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.Spec;
@@ -31,15 +33,24 @@ import jp.awayume.mtkwizard.app.command.VersionCommand;
     description = "A tool to flash MediaTek devices.\n",
     footer = "\nThis software is an Open Source Software.\n"
             + "Please report issues at https://github.com/Awayume/mtkwizard/issues",
-    subcommands = VersionCommand.class
+    subcommands = {
+        VersionCommand.class,
+    }
 )
 public class Main implements Runnable {
     private static final Logger logger = LogManager.getLogger(Main.class);
-    @Spec
     @SuppressWarnings("initialization")
+    @Spec
     private CommandSpec commandSpec;
+    @SuppressWarnings("UnusedVariable")
+    @Option(
+        names = {"-h", "--help"},
+        description = "Display help information about the specified command.",
+        usageHelp = true
+    )
+    private boolean helpRequested;
     @Option(names = {"-V", "--version"}, description = "Print version information and exit.")
-    private boolean version;
+    private boolean versionRequested;
 
     /**
      * The entry point of this software.
@@ -53,8 +64,15 @@ public class Main implements Runnable {
         );
 
         Main.logger.debug(String.format("The command line arguments is: %s", Arrays.toString(args)));
+        CommandLine commandLine = new CommandLine(new Main());
+        // Add the 'help' command
+        // NOTE: I hope this will be added automatically in the future
+        CommandSpec helpSpec = CommandSpec.forAnnotatedObject(new HelpCommand());
+        helpSpec.usageMessage().hidden(true);
+        commandLine.addSubcommand("help", new CommandLine(helpSpec));
+
         Main.logger.debug("Executing the command line");
-        int exitCode = new CommandLine(new Main()).execute(args);
+        int exitCode = commandLine.execute(args);
         Main.logger.debug(String.format("The exit code is: %d", exitCode));
         System.exit(exitCode);
     }
@@ -64,9 +82,10 @@ public class Main implements Runnable {
      */
     @Override
     public void run() {
-        if (version) {
+        if (versionRequested) {
+            // NOTE: I hope this will be added automatically in the future
             this.logger.debug("The option '--version' is detected; Executing the 'version' command");
-            new CommandLine(this).execute(new String[] {"version"});
+            this.commandSpec.commandLine().execute(new String[] {"version"});
         } else {
             this.logger.debug("No command is detected; Executing the 'help' command");
             this.commandSpec.commandLine().printVersionHelp(System.out);
