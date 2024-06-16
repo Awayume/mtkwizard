@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation project(':mtk')
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
     implementation 'info.picocli:picocli:4.7.6'
 }
 
