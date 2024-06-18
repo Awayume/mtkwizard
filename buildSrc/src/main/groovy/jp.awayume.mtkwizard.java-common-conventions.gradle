@@ -47,9 +47,13 @@ compileJava {
 
 
 checkerFramework {
+    def astubFiles = fileTree(dir: 'src/main/annotated', include: '**/*.astub')
     checkers = [
         'org.checkerframework.checker.nullness.NullnessChecker',
     ]
+    if (!astubFiles.isEmpty()) {
+        extraJavacArgs << '-Astubs=' + astubFiles.join(File.pathSeparator)
+    }
 }
 
 
