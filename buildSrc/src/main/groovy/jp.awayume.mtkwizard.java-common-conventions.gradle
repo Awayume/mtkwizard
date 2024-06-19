@@ -51,6 +51,11 @@ checkerFramework {
     checkers = [
         'org.checkerframework.checker.nullness.NullnessChecker',
     ]
+    extraJavacArgs += [
+        '-AwarnUnneededSuppressions',
+        '-ArequirePrefixInWarningSuppressions',
+        '-AshowPrefixInWarningMessages',
+    ]
     if (!astubFiles.isEmpty()) {
         extraJavacArgs << '-Astubs=' + astubFiles.join(File.pathSeparator)
     }

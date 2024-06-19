@@ -39,7 +39,7 @@ import jp.awayume.mtkwizard.app.command.VersionCommand;
 )
 public class Main implements Runnable {
     private static final Logger logger = LogManager.getLogger(Main.class);
-    @SuppressWarnings("initialization")
+    @SuppressWarnings("nullness:initialization")
     @Spec
     private CommandSpec commandSpec;
     @SuppressWarnings("UnusedVariable")

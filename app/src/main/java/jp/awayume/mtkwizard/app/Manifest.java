@@ -22,13 +22,13 @@ import picocli.CommandLine.IVersionProvider;
  * @since 0.1
  */
 public final class Manifest {
-    @SuppressWarnings("initialization")
+    @SuppressWarnings("nullness:initialization")
     public static String buildType;
-    @SuppressWarnings("initialization")
+    @SuppressWarnings("nullness:initialization")
     public static String version;
-    @SuppressWarnings("initialization")
+    @SuppressWarnings("nullness:initialization")
     public static String revision;
-    @SuppressWarnings("initialization")
+    @SuppressWarnings("nullness:initialization")
     public static ZonedDateTime createdAt;
     private static boolean isLoaded = false;
     private static final Logger logger = LogManager.getLogger(Manifest.class);
