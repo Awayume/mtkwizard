@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Check out
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Cache Gradle
@@ -25,5 +25,5 @@ jobs:
 
       - name: Run test
         run: |
-          ./gradlew test
+          ./gradlew check test
 
