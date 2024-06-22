@@ -8,6 +8,7 @@ plugins {
     id 'java'
     id 'checkstyle'
     id 'pmd'
+
     id 'com.github.johnrengelman.shadow'
     id 'net.ltgt.errorprone'
     id 'org.checkerframework'
@@ -20,26 +21,32 @@ repositories {
 
 
 dependencies {
-    implementation 'org.apache.logging.log4j:log4j-api:2.23.1'
-    implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
+    // log4j
+    def log4jVersion = '2.23.1'
+    implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
 
+    // JUnit 4
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 
     // Checkstyle
     checkstyle 'com.puppycrawl.tools:checkstyle:10.17.0'
 
     // PMD
-    pmd 'net.sourceforge.pmd:pmd-ant:7.2.0'
-    pmd 'net.sourceforge.pmd:pmd-java:7.2.0'
+    def pmdVersion = '7.2.0'
+    pmd "net.sourceforge.pmd:pmd-ant:${pmdVersion}"
+    pmd "net.sourceforge.pmd:pmd-java:${pmdVersion}"
 
     // Checker Framework
-    compileOnly 'org.checkerframework:checker-qual:3.42.0'
-    testCompileOnly 'org.checkerframework:checker-qual:3.42.0'
-    checkerFramework 'org.checkerframework:checker:3.42.0'
+    def checkerFrameworkVersion = '3.42.0'
+    compileOnly "org.checkerframework:checker-qual:${checkerFrameworkVersion}"
+    testCompileOnly "org.checkerframework:checker-qual:${checkerFrameworkVersion}"
+    checkerFramework "org.checkerframework:checker:${checkerFrameworkVersion}"
 
     // Error Prone
-    compileOnly 'com.google.errorprone:error_prone_annotations:2.10.0'
-    errorprone 'com.google.errorprone:error_prone_core:2.10.0'
+    def errorProneVersion = '2.10.0'
+    compileOnly "com.google.errorprone:error_prone_annotations:${errorProneVersion}"
+    errorprone "com.google.errorprone:error_prone_core:${errorProneVersion}"
 }
 
 
