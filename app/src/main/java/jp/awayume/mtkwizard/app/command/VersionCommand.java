@@ -37,14 +37,14 @@ public class VersionCommand implements Runnable {
         } else {
             buildType = String.format(" (%s)", manifest.buildType);
         }
-        String jvm = String.format(
+        String jvmInfo = String.format(
             "%s %s (%s %s)",
             System.getProperty("java.vm.name"),
             System.getProperty("java.version"),
             System.getProperty("java.vm.vendor"),
             System.getProperty("java.vm.version")
         );
-        String os = String.format(
+        String osInfo = String.format(
             "%s %s (%s)", System.getProperty("os.name"),
             System.getProperty("os.version"),
             System.getProperty("os.arch")
@@ -54,8 +54,8 @@ public class VersionCommand implements Runnable {
                       + "------------------------------------------------------------\n\n"
                       + String.format("Build time:   %s\n", manifest.createdAt.format(dtFormatter)).replace("Z", "UTC")
                       + String.format("Revision:     %s\n\n", manifest.revision)
-                      + String.format("JVM:          %s\n", jvm)
-                      + String.format("OS:           %s\n\n", os);
+                      + String.format("JVM:          %s\n", jvmInfo)
+                      + String.format("OS:           %s\n\n", osInfo);
         System.out.println(info);
         this.logger.debug("Execution of the 'version' command completed");
     }
