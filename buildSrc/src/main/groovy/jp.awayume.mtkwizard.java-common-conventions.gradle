@@ -50,51 +50,6 @@ dependencies {
 }
 
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-    }
-}
-
-
-compileJava {
-    options.compilerArgs << '-Xlint:all,-processing,-static'
-}
-
-
-checkstyle {
-    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
-}
-
-
-pmd {
-    consoleOutput = true
-    ruleSetFiles = files("${rootDir}/config/pmd/ruleset.xml")
-    ruleSets = []
-}
-
-
-checkerFramework {
-    def astubFiles = fileTree(dir: 'src/main/annotated', include: '**/*.astub')
-    checkers = [
-        'org.checkerframework.checker.nullness.NullnessChecker',
-    ]
-    extraJavacArgs += [
-        '-AwarnUnneededSuppressions',
-        '-ArequirePrefixInWarningSuppressions',
-        '-AshowPrefixInWarningMessages',
-    ]
-    if (!astubFiles.isEmpty()) {
-        extraJavacArgs << '-Astubs=' + astubFiles.join(File.pathSeparator)
-    }
-}
-
-
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
-
 def _ = { ->  // define _ to avoid compile error
     def describe = 'git describe --always --dirty --broken'.execute().text.trim()
     def tagPattern = Pattern.compile('^v\\d+\\.\\d+\\.\\d+(-(alpha|beta|rc)(\\.\\d+)?)?')
@@ -116,6 +71,18 @@ def _ = { ->  // define _ to avoid compile error
 }()
 
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+
+compileJava {
+    options.compilerArgs << '-Xlint:all,-processing,-static'
+}
+
+
 jar {
     manifest {
         attributes 'Author': 'Awayume <dev@awayume.jp>'
@@ -126,4 +93,37 @@ jar {
         attributes 'Revision': project.revision
     }
     entryCompression = ZipEntryCompression.STORED
+}
+
+
+checkerFramework {
+    def astubFiles = fileTree(dir: 'src/main/annotated', include: '**/*.astub')
+    checkers = [
+        'org.checkerframework.checker.nullness.NullnessChecker',
+    ]
+    extraJavacArgs += [
+        '-AwarnUnneededSuppressions',
+        '-ArequirePrefixInWarningSuppressions',
+        '-AshowPrefixInWarningMessages',
+    ]
+    if (!astubFiles.isEmpty()) {
+        extraJavacArgs << '-Astubs=' + astubFiles.join(File.pathSeparator)
+    }
+}
+
+
+checkstyle {
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+}
+
+
+pmd {
+    consoleOutput = true
+    ruleSetFiles = files("${rootDir}/config/pmd/ruleset.xml")
+    ruleSets = []
+}
+
+
+tasks.named('test') {
+    useJUnitPlatform()
 }
