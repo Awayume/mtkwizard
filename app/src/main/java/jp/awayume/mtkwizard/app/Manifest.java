@@ -38,7 +38,7 @@ public final class Manifest {
      *
      * Once the manifest is loaded, its values are cached.
      */
-    @SuppressWarnings("StaticAssignmentInConstructor")
+    @SuppressWarnings({"StaticAssignmentInConstructor", "PMD.AvoidThrowingRawExceptionTypes"})
     public Manifest() {
         if (!this.isLoaded) {
             this.logger.debug("Loading the jar manifest...");

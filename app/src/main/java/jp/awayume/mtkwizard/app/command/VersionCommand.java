@@ -4,6 +4,7 @@
 package jp.awayume.mtkwizard.app.command;
 
 import java.time.format.DateTimeFormatter;
+import java.util.function.Consumer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +20,7 @@ import jp.awayume.mtkwizard.app.Manifest;
  * @author Awayume {@literal <dev@awayume.jp>}
  * @since 0.1
  */
+@SuppressWarnings("PMD.AtLeastOneConstructor")
 @Command(name = "version", description = "Print version information and exit.", hidden = true)
 public class VersionCommand implements Runnable {
     private final static Logger logger = LogManager.getLogger(VersionCommand.class);
@@ -56,7 +58,11 @@ public class VersionCommand implements Runnable {
                       + String.format("Revision:     %s\n\n", manifest.revision)
                       + String.format("JVM:          %s\n", jvmInfo)
                       + String.format("OS:           %s\n\n", osInfo);
-        System.out.println(info);
+        @SuppressWarnings("PMD.SystemPrintln")
+        Consumer<String> consumer = (str) -> {
+            System.out.println(str);
+        };
+        consumer.accept(info);
         this.logger.debug("Execution of the 'version' command completed");
     }
 }

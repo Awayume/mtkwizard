@@ -25,6 +25,7 @@ import jp.awayume.mtkwizard.app.command.VersionCommand;
  * @author Awayume {@literal <dev@awayume.jp>}
  * @since 0.1
  */
+@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.ShortClassName", "PMD.UnnecessaryFullyQualifiedName"})
 @Command(
     name = "mtkwizard",
     versionProvider = Manifest.VersionProvider.class,
