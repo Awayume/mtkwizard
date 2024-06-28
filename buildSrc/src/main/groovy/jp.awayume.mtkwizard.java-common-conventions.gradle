@@ -26,7 +26,7 @@ dependencies {
     implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
     implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
 
-    // JUnit 4
+    // JUnit Jupiter
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 
     // Checkstyle
@@ -121,6 +121,11 @@ pmd {
     consoleOutput = true
     ruleSetFiles = files("${rootDir}/config/pmd/ruleset.xml")
     ruleSets = []
+}
+
+
+pmdTest.doFirst {
+    pmd.ruleSetFiles = files("${rootDir}/config/pmd/test-ruleset.xml")
 }
 
 
