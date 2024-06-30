@@ -36,7 +36,7 @@ import jp.awayume.mtkwizard.app.command.VersionCommand;
         VersionCommand.class,
     }
 )
-public class Main implements Runnable {
+public final class Main implements Runnable {
     private static final Logger logger = LogManager.getLogger(Main.class);
     @SuppressWarnings("nullness:initialization")
     @Spec
@@ -56,22 +56,22 @@ public class Main implements Runnable {
      *
      * @param args The command line arguments
      */
-    public static void main(String[] args) {
-        Manifest manifest = new Manifest();
+    public static void main(final String[] args) {
+        final Manifest manifest = new Manifest();
         Main.logger.debug(
             String.format("MTK Wizard (version %s, revision %s) started.", manifest.version, manifest.revision)
         );
 
         Main.logger.debug(String.format("The command line arguments is: %s", Arrays.toString(args)));
-        CommandLine commandLine = new CommandLine(new Main());
+        final CommandLine commandLine = new CommandLine(new Main());
         // Add the 'help' command
         // NOTE: I hope this will be added automatically in the future
-        CommandSpec helpSpec = CommandSpec.forAnnotatedObject(new HelpCommand());
+        final CommandSpec helpSpec = CommandSpec.forAnnotatedObject(new HelpCommand());
         helpSpec.usageMessage().hidden(true);
         commandLine.addSubcommand("help", new CommandLine(helpSpec));
 
         Main.logger.debug("Executing the command line");
-        int exitCode = commandLine.execute(args);
+        final int exitCode = commandLine.execute(args);
         Main.logger.debug(String.format("The exit code is: %d", exitCode));
         System.exit(exitCode);
     }

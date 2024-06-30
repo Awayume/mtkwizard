@@ -22,7 +22,7 @@ import jp.awayume.mtkwizard.app.Manifest;
  */
 @SuppressWarnings("PMD.AtLeastOneConstructor")
 @Command(name = "version", description = "Print version information and exit.", hidden = true)
-public class VersionCommand implements Runnable {
+public final class VersionCommand implements Runnable {
     private final static Logger logger = LogManager.getLogger(VersionCommand.class);
 
     /**
@@ -31,27 +31,27 @@ public class VersionCommand implements Runnable {
     @Override
     public void run() {
         this.logger.debug("Executing the 'version' command");
-        Manifest manifest = new Manifest();
-        DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
-        String buildType;
+        final Manifest manifest = new Manifest();
+        final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
+        final String buildType;
         if (manifest.buildType.equals("release")) {
             buildType = "";
         } else {
             buildType = String.format(" (%s)", manifest.buildType);
         }
-        String jvmInfo = String.format(
+        final String jvmInfo = String.format(
             "%s %s (%s %s)",
             System.getProperty("java.vm.name"),
             System.getProperty("java.version"),
             System.getProperty("java.vm.vendor"),
             System.getProperty("java.vm.version")
         );
-        String osInfo = String.format(
+        final String osInfo = String.format(
             "%s %s (%s)", System.getProperty("os.name"),
             System.getProperty("os.version"),
             System.getProperty("os.arch")
         );
-        String info = "\n------------------------------------------------------------\n"
+        final String info = "\n------------------------------------------------------------\n"
                       + String.format("MTK Wizard version %s%s\n", manifest.version, buildType)
                       + "------------------------------------------------------------\n\n"
                       + String.format("Build time:   %s\n", manifest.createdAt.format(dtFormatter)).replace("Z", "UTC")
@@ -59,7 +59,7 @@ public class VersionCommand implements Runnable {
                       + String.format("JVM:          %s\n", jvmInfo)
                       + String.format("OS:           %s\n\n", osInfo);
         @SuppressWarnings("PMD.SystemPrintln")
-        Consumer<String> consumer = (str) -> {
+        final Consumer<String> consumer = (str) -> {
             System.out.println(str);
         };
         consumer.accept(info);

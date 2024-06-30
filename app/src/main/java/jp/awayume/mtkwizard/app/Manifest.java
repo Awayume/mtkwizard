@@ -42,9 +42,9 @@ public final class Manifest {
     public Manifest() {
         if (!this.isLoaded) {
             this.logger.debug("Loading the jar manifest...");
-            java.util.jar.Manifest manifest;
+            final java.util.jar.Manifest manifest;
             try {
-                InputStream manifestStream = ClassLoader.getSystemResourceAsStream("META-INF/MANIFEST.MF");
+                final InputStream manifestStream = ClassLoader.getSystemResourceAsStream("META-INF/MANIFEST.MF");
                 if (manifestStream == null) {
                     throw new IOException("The jar manifest not found");
                 }
@@ -53,7 +53,7 @@ public final class Manifest {
                 this.logger.fatal("An unexpected exception occured", e);
                 throw new RuntimeException("An unexpected exception occured", e);
             }
-            Attributes manifestAttributes = manifest.getMainAttributes();
+            final Attributes manifestAttributes = manifest.getMainAttributes();
             this.buildType = manifestAttributes.getValue("Build-Type");
             this.version = manifestAttributes.getValue("Version");
             this.revision = manifestAttributes.getValue("Revision");
@@ -71,7 +71,7 @@ public final class Manifest {
      * @author Awayume {@literal <dev@awayume.jp>}
      * @since 0.1
      */
-    public static class VersionProvider implements IVersionProvider {
+    public static final class VersionProvider implements IVersionProvider {
         /**
          * Parses the jar manifest and returns the formatted version string.
          *
@@ -79,7 +79,7 @@ public final class Manifest {
          */
         @Override
         public String[] getVersion() throws Exception {
-            Manifest manifest = new Manifest();
+            final Manifest manifest = new Manifest();
             return new String[] {
                 String.format("MTK Wizard version %s", manifest.version),
                 "Copyright (C) 2024 Awayume",
