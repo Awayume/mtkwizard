@@ -84,7 +84,9 @@ public final class Main implements Runnable {
         if (versionRequested) {
             // NOTE: I hope this will be added automatically in the future
             this.logger.debug("The option '--version' is detected; Executing the 'version' command");
-            this.commandSpec.commandLine().execute(new String[] {"version"});
+            @SuppressWarnings("PMD.UnnecessaryVarargsArrayCreation")
+            final Runnable runner = () -> { this.commandSpec.commandLine().execute(new String[] {"version"}); };
+            runner.run();
         } else {
             this.logger.debug("No command is detected; Executing the 'help' command");
             this.commandSpec.commandLine().printVersionHelp(System.out);
