@@ -4,7 +4,6 @@
 package jp.awayume.mtkwizard.app.command;
 
 import java.time.format.DateTimeFormatter;
-import java.util.function.Consumer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,10 +58,8 @@ public final class VersionCommand implements Runnable {
                       + String.format("JVM:          %s\n", jvmInfo)
                       + String.format("OS:           %s\n\n", osInfo);
         @SuppressWarnings("PMD.SystemPrintln")
-        final Consumer<String> consumer = (str) -> {
-            System.out.println(str);
-        };
-        consumer.accept(info);
+        final Runnable runner = () -> { System.out.println(info); };
+        runner.run();
         this.logger.debug("Execution of the 'version' command completed");
     }
 }
