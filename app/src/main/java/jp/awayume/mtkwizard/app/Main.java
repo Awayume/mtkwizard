@@ -59,7 +59,7 @@ public final class Main implements Runnable {
     public static void main(final String[] args) {
         final Manifest manifest = new Manifest();
         Main.logger.debug(
-            String.format("MTK Wizard (version %s, revision %s) started.", manifest.version, manifest.revision)
+            String.format("MTK Wizard (version %s, revision %s) started.", manifest.getVersion(), manifest.getRevision())
         );
 
         Main.logger.debug(String.format("The command line arguments is: %s", Arrays.toString(args)));

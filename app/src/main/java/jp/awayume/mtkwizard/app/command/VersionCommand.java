@@ -32,11 +32,12 @@ public final class VersionCommand implements Runnable {
         this.logger.debug("Executing the 'version' command");
         final Manifest manifest = new Manifest();
         final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
-        final String buildType;
-        if (manifest.buildType.equals("release")) {
-            buildType = "";
+        final String buildType = manifest.getBuildType();
+        final String buildTypeStr;
+        if (buildType.equals("release")) {
+            buildTypeStr = "";
         } else {
-            buildType = String.format(" (%s)", manifest.buildType);
+            buildTypeStr = String.format(" (%s)", buildType);
         }
         final String jvmInfo = String.format(
             "%s %s (%s %s)",
@@ -51,10 +52,10 @@ public final class VersionCommand implements Runnable {
             System.getProperty("os.arch")
         );
         final String info = "\n------------------------------------------------------------\n"
-                      + String.format("MTK Wizard version %s%s\n", manifest.version, buildType)
+                      + String.format("MTK Wizard version %s%s\n", manifest.getVersion(), buildTypeStr)
                       + "------------------------------------------------------------\n\n"
-                      + String.format("Build time:   %s\n", manifest.createdAt.format(dtFormatter)).replace("Z", "UTC")
-                      + String.format("Revision:     %s\n\n", manifest.revision)
+                      + String.format("Build time:   %s\n", manifest.getBuildTime().format(dtFormatter)).replace("Z", "UTC")
+                      + String.format("Revision:     %s\n\n", manifest.getRevision())
                       + String.format("JVM:          %s\n", jvmInfo)
                       + String.format("OS:           %s\n\n", osInfo);
         @SuppressWarnings("PMD.SystemPrintln")

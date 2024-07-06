@@ -23,13 +23,13 @@ import picocli.CommandLine.IVersionProvider;
  */
 public final class Manifest {
     @SuppressWarnings("nullness:initialization")
-    public static String buildType;
+    private static String buildType;
     @SuppressWarnings("nullness:initialization")
-    public static String version;
+    private static String version;
     @SuppressWarnings("nullness:initialization")
-    public static String revision;
+    private static String revision;
     @SuppressWarnings("nullness:initialization")
-    public static ZonedDateTime createdAt;
+    private static ZonedDateTime createdAt;
     private static boolean isLoaded = false;
     private static final Logger logger = LogManager.getLogger(Manifest.class);
 
@@ -63,6 +63,42 @@ public final class Manifest {
         } else {
             this.logger.debug("The jar manifest has already loaded so using the cached values");
         }
+    }
+
+    /**
+     * Returns the build type.
+     *
+     * @return The build type
+     */
+    public String getBuildType() {
+        return this.buildType;
+    }
+
+    /**
+     * Returns the version.
+     *
+     * @return The version
+     */
+    public String getVersion() {
+        return this.version;
+    }
+
+    /**
+     * Returns the revision.
+     *
+     * @return The revision
+     */
+    public String getRevision() {
+        return this.revision;
+    }
+
+    /**
+     * Returns the build time.
+     *
+     * @return The build time
+     */
+    public ZonedDateTime getBuildTime() {
+        return this.createdAt;
     }
 
     /**
