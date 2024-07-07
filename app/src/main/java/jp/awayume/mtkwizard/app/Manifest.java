@@ -40,7 +40,9 @@ public final class Manifest {
      */
     @SuppressWarnings({"StaticAssignmentInConstructor", "PMD.AvoidThrowingRawExceptionTypes"})
     public Manifest() {
-        if (!this.isLoaded) {
+        if (this.isLoaded) {
+            this.logger.debug("The jar manifest has already loaded so using the cached values");
+        } else {
             this.logger.debug("Loading the jar manifest...");
             final java.util.jar.Manifest manifest;
             try {
@@ -60,8 +62,6 @@ public final class Manifest {
             this.createdAt = ZonedDateTime.parse(manifestAttributes.getValue("Created-At"));
             this.isLoaded = true;
             this.logger.debug("Loaded");
-        } else {
-            this.logger.debug("The jar manifest has already loaded so using the cached values");
         }
     }
 
