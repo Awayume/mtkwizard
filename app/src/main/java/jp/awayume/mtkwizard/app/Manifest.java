@@ -44,22 +44,22 @@ public final class Manifest {
             this.logger.debug("The jar manifest has already loaded so using the cached values");
         } else {
             this.logger.debug("Loading the jar manifest...");
-            final java.util.jar.Manifest manifest;
-            try {
-                final InputStream manifestStream = ClassLoader.getSystemResourceAsStream("META-INF/MANIFEST.MF");
+            @SuppressWarnings({"PMD.LooseCoupling", "PMD.PrematureDeclaration"})
+            final Attributes attributes;
+            try (InputStream manifestStream = ClassLoader.getSystemResourceAsStream("META-INF/MANIFEST.MF")) {
                 if (manifestStream == null) {
-                    throw new IOException("The jar manifest not found");
+                    this.logger.fatal("Failed to load the jar manifest");
+                    throw new RuntimeException(new IOException("Failed to load the jar manifest"));
                 }
-                manifest = new java.util.jar.Manifest(manifestStream);
+                attributes = new java.util.jar.Manifest(manifestStream).getMainAttributes();
             } catch (IOException e) {
                 this.logger.fatal("An unexpected exception occured", e);
-                throw new RuntimeException("An unexpected exception occured", e);
+                throw new RuntimeException(e);
             }
-            final Attributes manifestAttributes = manifest.getMainAttributes();
-            this.buildType = manifestAttributes.getValue("Build-Type");
-            this.version = manifestAttributes.getValue("Version");
-            this.revision = manifestAttributes.getValue("Revision");
-            this.createdAt = ZonedDateTime.parse(manifestAttributes.getValue("Created-At"));
+            this.buildType = attributes.getValue("Build-Type");
+            this.version = attributes.getValue("Version");
+            this.revision = attributes.getValue("Revision");
+            this.createdAt = ZonedDateTime.parse(attributes.getValue("Created-At"));
             this.isLoaded = true;
             this.logger.debug("Loaded");
         }
