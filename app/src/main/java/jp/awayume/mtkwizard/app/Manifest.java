@@ -30,7 +30,7 @@ public final class Manifest {
     private static String revision;
     @SuppressWarnings("nullness:initialization")
     private static ZonedDateTime createdAt;
-    private static boolean isLoaded = false;
+    private static boolean isLoaded;
     private static final Logger logger = LogManager.getLogger(Manifest.class);
 
     /**
