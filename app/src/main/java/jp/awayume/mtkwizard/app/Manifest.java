@@ -38,7 +38,7 @@ public final class Manifest {
      *
      * Once the manifest is loaded, its values are cached.
      */
-    @SuppressWarnings({"StaticAssignmentInConstructor", "PMD.AvoidThrowingRawExceptionTypes"})
+    @SuppressWarnings({"StaticAssignmentInConstructor", "PMD.AssignmentToNonFinalStatic", "PMD.AvoidThrowingRawExceptionTypes"})
     public Manifest() {
         if (this.isLoaded) {
             this.logger.debug("The jar manifest has already loaded so using the cached values");
