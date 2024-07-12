@@ -34,7 +34,7 @@ public final class VersionCommand implements Runnable {
         final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
         final String buildType = manifest.getBuildType();
         final String buildTypeStr;
-        if (buildType.equals("release")) {
+        if ("release".equals(buildType)) {
             buildTypeStr = "";
         } else {
             buildTypeStr = String.format(" (%s)", buildType);
