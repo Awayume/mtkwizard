@@ -145,7 +145,11 @@
     <rule ref="category/java/design.xml/GodClass" />
     <rule ref="category/java/design.xml/ImmutableField" />
     <rule ref="category/java/design.xml/InvalidJavaBean" />
-    <rule ref="category/java/design.xml/LawOfDemeter" />
+    <rule ref="category/java/design.xml/LawOfDemeter">
+        <properties>
+            <property name="trustRadius" value="5" />
+        </properties>
+    </rule>
     <rule ref="category/java/design.xml/LogicInversion" />
     <rule ref="category/java/design.xml/LoosePackageCoupling" />
     <rule ref="category/java/design.xml/MutableStaticState" />
