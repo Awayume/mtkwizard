@@ -36,7 +36,7 @@ public final class Manifest {
     /**
      * Loads the manifest and parses it.
      *
-     * Once the manifest is loaded, its values are cached.
+     * <p>Once the manifest is loaded, its values are cached.</p>
      */
     @SuppressWarnings({
         "StaticAssignmentInConstructor",
