@@ -22,7 +22,7 @@ import jp.awayume.mtkwizard.app.Manifest;
 @SuppressWarnings("PMD.AtLeastOneConstructor")
 @Command(name = "version", description = "Print version information and exit.", hidden = true)
 public final class VersionCommand implements Runnable {
-    private final static Logger logger = LogManager.getLogger(VersionCommand.class);
+    private static final Logger logger = LogManager.getLogger(VersionCommand.class);
 
     /**
      * Print version information and exit.
