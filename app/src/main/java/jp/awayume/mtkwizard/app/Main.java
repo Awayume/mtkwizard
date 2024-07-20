@@ -59,7 +59,9 @@ public final class Main implements Runnable {
     public static void main(final String[] args) {
         final Manifest manifest = new Manifest();
         Main.logger.debug(
-            String.format("MTK Wizard (version %s, revision %s) started.", manifest.getVersion(), manifest.getRevision())
+            String.format(
+                "MTK Wizard (version %s, revision %s) started.", manifest.getVersion(), manifest.getRevision()
+            )
         );
 
         Main.logger.debug(String.format("The command line arguments is: %s", Arrays.toString(args)));
@@ -85,7 +87,9 @@ public final class Main implements Runnable {
             // NOTE: I hope this will be added automatically in the future
             this.logger.debug("The option '--version' is detected; Executing the 'version' command");
             @SuppressWarnings("PMD.UnnecessaryVarargsArrayCreation")
-            final Runnable runner = () -> { this.commandSpec.commandLine().execute(new String[] {"version"}); };
+            final Runnable runner = () -> {
+                this.commandSpec.commandLine().execute(new String[] {"version"});
+            };
             runner.run();
         } else {
             this.logger.debug("No command is detected; Executing the 'help' command");

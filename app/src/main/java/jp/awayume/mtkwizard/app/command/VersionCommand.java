@@ -39,6 +39,7 @@ public final class VersionCommand implements Runnable {
         } else {
             buildTypeStr = String.format(" (%s)", buildType);
         }
+        final String buildTime = manifest.getBuildTime().format(dtFormatter).replace("Z", "UTC");
         final String jvmInfo = String.format(
             "%s %s (%s %s)",
             System.getProperty("java.vm.name"),
@@ -54,12 +55,14 @@ public final class VersionCommand implements Runnable {
         final String info = "\n------------------------------------------------------------\n"
                       + String.format("MTK Wizard version %s%s\n", manifest.getVersion(), buildTypeStr)
                       + "------------------------------------------------------------\n\n"
-                      + String.format("Build time:   %s\n", manifest.getBuildTime().format(dtFormatter)).replace("Z", "UTC")
+                      + String.format("Build time:   %s\n", buildTime)
                       + String.format("Revision:     %s\n\n", manifest.getRevision())
                       + String.format("JVM:          %s\n", jvmInfo)
                       + String.format("OS:           %s\n\n", osInfo);
         @SuppressWarnings("PMD.SystemPrintln")
-        final Runnable runner = () -> { System.out.println(info); };
+        final Runnable runner = () -> {
+            System.out.println(info);
+        };
         runner.run();
         this.logger.debug("Execution of the 'version' command completed");
     }
